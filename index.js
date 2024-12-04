@@ -19,9 +19,6 @@ dotenv.config();
 
 const app = express();
 app.use(express.json())
-
-
-//create a user
 app.post('/createUser', (req, res) => {
     const { name1, email, password } = req.body;
     const insert_query = `INSERT INTO users (name1, email, password) VALUES($1, $2, $3)`;
@@ -50,7 +47,6 @@ app.post('/createUser', (req, res) => {
     });
   });
 
-
   //get a user by name
   app.get('/getUserDataByName/:name1', (req, res) => {
     const name1= req.params.name1;
@@ -64,8 +60,6 @@ app.post('/createUser', (req, res) => {
       }
     });
   });
-
-
   //delete a user by name
 app.delete('/deleteUser/:name1',(req,res)=>{
     const name1 = req.params.name1;
@@ -83,8 +77,6 @@ app.delete('/deleteUser/:name1',(req,res)=>{
         }
     })
 })
-
-
 //update a user
 app.put('/updateUser/:name1',(req,res)=>{
   const name1 = req.params.name1;
@@ -94,17 +86,16 @@ const update_query = `UPDATE users SET email=$1,password=$2 WHERE name1=$3`;
 conn.query(update_query,[email,password,name1],(err,result)=>{
   if(!err)
   {
-    console.log(result)
-    res.send("updated user successfully");
+    console.log()
+    res.send("user updated");
   }
   else{
     res.send(err)
   }
 })
+
+
 })
-
-
-
 
 app.listen(process.env.PORT,()=>{
     console.log('SERver started!')
