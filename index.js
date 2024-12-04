@@ -78,12 +78,12 @@ app.delete('/deleteUser/:name1',(req,res)=>{
     })
 })
 //update a user
-app.put('/updateUser/:name1',(req,res)=>{
-  const name1 = req.params.name1;
-const email= req.body.email;
+app.put('/updateUser/:id1',(req,res)=>{
+  const id1 = req.params.id1;
+const name1= req.body.name1;
 const password= req.body.password;
-const update_query = `UPDATE users SET email=$1,password=$2 WHERE name1=$3`;
-conn.query(update_query,[email,password,name1],(err,result)=>{
+const update_query = `UPDATE users SET name1=$1,password=$2 WHERE id1=$3`;
+conn.query(update_query,[name1,password,id1],(err,result)=>{
   if(!err)
   {
     console.log()
