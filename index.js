@@ -1,5 +1,7 @@
 const express = require('express');
 const {Client} = require('pg');
+const Joi = require('joi');
+const {userSchema,userUpdateSchema} = require('./validator');
 
 const conn = new Client({
     host:"localhost",
@@ -20,10 +22,18 @@ dotenv.config();
 const app = express();
 app.use(express.json())
 app.post('/createUser', (req, res) => {
-    const { name1, email, password } = req.body;
-    const insert_query = `INSERT INTO users (name1, email, password) VALUES($1, $2, $3)`;
+    const{error,value } = userSchema.validate(req.body);
+    if(error)
+    {
+      console.log(error);
+      return res.send(error.details);
+    }
+
+
+    const { name, email, password } = req.body;
+    const insert_query = `INSERT INTO users (name, email, password) VALUES($1, $2, $3)`;
   
-    conn.query(insert_query, [name1, email, password], (err, result) => {
+    conn.query(insert_query, [name, email, password], (err, result) => {
       if (!err) {
         console.log(result);
         res.send(" User created Successfully");
@@ -48,10 +58,10 @@ app.post('/createUser', (req, res) => {
   });
 
   //get a user by name
-  app.get('/getUserDataByName/:name1', (req, res) => {
-    const name1= req.params.name1;
-    const select_query = `SELECT * FROM users WHERE name1 = $1`;
-    conn.query(select_query, [name1],(err, result) => {
+  app.get('/getUserDataByName/:name', (req, res) => {
+    const name= req.params.name;
+    const select_query = `SELECT * FROM users WHERE name = $1`;
+    conn.query(select_query, [name],(err, result) => {
       if (!err) {
         console.log(result);
         res.send(result.rows);
@@ -61,10 +71,10 @@ app.post('/createUser', (req, res) => {
     });
   });
   //delete a user by name
-app.delete('/deleteUser/:name1',(req,res)=>{
-    const name1 = req.params.name1;
-    const delete_query = `DELETE from users WHERE name1 = $1`;
-    conn.query(delete_query,[name1],(err,result)=>{
+app.delete('/deleteUser/:name',(req,res)=>{
+    const name = req.params.name;
+    const delete_query = `DELETE from users WHERE name = $1`;
+    conn.query(delete_query,[name],(err,result)=>{
         if(!err)
         {   
             console.log(result)
@@ -79,11 +89,18 @@ app.delete('/deleteUser/:name1',(req,res)=>{
 })
 //update a user
 app.put('/updateUser/:id1',(req,res)=>{
+  const{error } = userUpdateSchema.validate(req.body);
+    if(error)
+    {
+      console.log(error);
+      return res.send(error.details);
+    }
+
   const id1 = req.params.id1;
-const name1= req.body.name1;
+const name= req.body.name;
 const password= req.body.password;
-const update_query = `UPDATE users SET name1=$1,password=$2 WHERE id1=$3`;
-conn.query(update_query,[name1,password,id1],(err,result)=>{
+const update_query = `UPDATE users SET name=$1,password=$2 WHERE id1=$3`;
+conn.query(update_query,[name,password,id1],(err,result)=>{
   if(!err)
   {
     console.log()
