@@ -79,7 +79,7 @@ app.delete("/deleteUser/:name", async (req, res) => {
   }
 });
 //update a user
-app.put("/updateUser/:id1",async (req, res) => {
+app.put("/updateUser/:id1", async (req, res) => {
   const { error } = userUpdateSchema.validate(req.body);
   if (error) {
     console.log(error);
@@ -88,11 +88,13 @@ app.put("/updateUser/:id1",async (req, res) => {
   const { id1 } = req.params;
   const { name, password } = req.body;
   try {
-const result = await conn.query('UPDATE users SET name=$1,password=$2 WHERE id1=$3 RETURNING *',[name,password,id1]);
-return res.status(200).json(result.rows[0]);
+    const result = await conn.query(
+      "UPDATE users SET name=$1,password=$2 WHERE id1=$3 RETURNING *",
+      [name, password, id1]
+    );
+    return res.status(200).json(result.rows[0]);
   } catch (err) {
     res.status(500).send(err);
-
   }
 
   //   const id1 = req.params.id1;

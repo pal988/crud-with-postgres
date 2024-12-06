@@ -58,11 +58,10 @@ describe("APIs Testing", () => {
     const res = await request(app)
       .put(`/updateUser/${userId}`)
       .send({
-        name: 'John',
-       
-        password: 'newpas',
+        name: "John",
+
+        password: "newpas",
       })
       .expect(200);
-   
   });
 });
