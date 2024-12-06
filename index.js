@@ -8,7 +8,7 @@ const conn = new Client({
     user:"postgres",
     port:5432,
     password:"root",
-    database:"apiDB",
+    database:"LoginDB",
 
 })
 
