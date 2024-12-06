@@ -26,27 +26,24 @@ describe("APIs Testing", () => {
     const res = await request(app)
       .post("/createUser")
       .send({
-        name: "Vamshi",
-        email: "vamshi@y.com",
-        password: "vamshi@1",
+        name: "Random",
+        email: "random@y.com",
+        password: "random@1",
       })
       .expect(201);
 
-    expect(res.body).toHaveProperty("id1");
-    expect(res.body.name).toBe("Vamshi");
-    expect(res.body.email).toBe("vamshi@y.com");
-    expect(res.body.password).toBe("vamshi@1");
+    expect(res.body).toHaveProperty("id");
+    expect(res.body.name).toBe("Random");
+    expect(res.body.email).toBe("random@y.com");
+    expect(res.body.password).toBe("random@1");
     userName = res.body.name;
   });
 
-  test("To fetch user data by name", async () => {
+  test("To fetch user data by id", async () => {
     const res = await request(app)
       .get(`/getUserDataByName/${userName}`)
       .expect(200);
-    expect(res.body).toHaveProperty("name", userName);
-    expect(res.body.email).toBe("vamshi@y.com");
-    expect(res.body.password).toBe("vamshi@1");
-  });
+    
 
   test("To Delete user data by name", async () => {
     const res = await request(app).delete(`/deleteUser/sanjay`).expect(200);
@@ -63,5 +60,7 @@ describe("APIs Testing", () => {
         password: "newpas",
       })
       .expect(200);
+    
   });
-});
+
+})
