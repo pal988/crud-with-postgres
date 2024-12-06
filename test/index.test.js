@@ -32,7 +32,7 @@ describe("APIs Testing", () => {
       })
       .expect(201);
 
-    expect(res.body).toHaveProperty("id");
+    expect(res.body).toHaveProperty("id1");
     expect(res.body.name).toBe("Random");
     expect(res.body.email).toBe("random@y.com");
     expect(res.body.password).toBe("random@1");
@@ -43,7 +43,7 @@ describe("APIs Testing", () => {
     const res = await request(app)
       .get(`/getUserDataByName/${userName}`)
       .expect(200);
-    
+  })
 
   test("To Delete user data by name", async () => {
     const res = await request(app).delete(`/deleteUser/sanjay`).expect(200);

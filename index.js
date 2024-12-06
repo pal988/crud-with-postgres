@@ -4,20 +4,15 @@ const Joi = require("joi");
 const { userSchema, userUpdateSchema } = require("./validator");
 
 const conn = new Client({
-<<<<<<< HEAD
-    host:"localhost",
-    user:"postgres",
-    port:5432,
-    password:"root",
-    database:"LoginDB",
-=======
+   
+
   host: "localhost",
   user: "postgres",
   port: 5432,
   password: "root",
   database: "apiDB",
 });
->>>>>>> 8c312fa12de19fe2cef6959971f5b93abc1e908f
+
 
 conn.connect().then(console.log("connected!"));
 const dotenv = require("dotenv");
